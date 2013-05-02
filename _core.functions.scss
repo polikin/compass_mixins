@@ -1,0 +1,531 @@
+/**
+* @tags: sass mixins library | Compass | http://compass-style.org
+* @use in: _var-project.scss
+*/
+
+@import "compass/css3";
+@import "compass/reset";
+
+/*****************/
+
+/**
+* @tags: responsive grid || _resonsive-grid.scss || Skeleton 960 | Skeleton 1200 | Gridpak
+* @use in: _var-project.scss
+*/
+@import "responsive-grid";
+@include grid($layout);
+
+/*****************/
+
+/**
+* @file _core.functions.scss
+*
+* @copyright (c) Locomotive 2013
+* @author Nicolas Poliquin <nic@locomotive.ca>
+* @version @Wed Mar  6 11:45:56 EST 2013
+* @since Version 2013-01-07
+* @license (c) Locomotive 2013
+*/
+
+/*****************/
+
+/*  =========
+  MIXIN
+=========
+*/
+
+/**
+* @tags: media queries
+* @mixin: @include media-querie(value) { attribut }
+* @usage:
+* .selector @include media-querie(320px) { width: 60%; }; }
+*/
+
+@mixin media-querie($value, $operator: 'min-width', $query: 'screen') {
+  @media #{$query} and (#{$operator}: #{$value}px) {
+		@content;
+	}
+}
+
+
+/**
+* @tags: position
+* @mixin: @include position();
+* @usage:
+* .selector { @include position(absolute, 0, 0, 0, 0); }
+*/
+
+@mixin position ($type, $top, $right, $bottom, $left) {
+	position: 	$type;
+    top: 		$top;
+    right: 		$right;
+    bottom: 	$bottom;
+    left: 		$left;
+}
+
+
+/**
+* @tags: custom size
+* @mixin: @include size();
+* @usage:
+* .selector { @include size(104, 104); }
+*/
+@mixin size($height, $width) {
+	height: #{$height}px;
+	width:	#{$width}px;
+}
+
+/*****************/
+
+/**
+* @tags: backgroundimage
+* @for: Load background image
+* @mixin: @include backgroundimage();
+* @usage:
+* .selector { @include backgroundimage(bckg-btn-dwlmenu, png); }
+*/
+
+@mixin backgroundimage($name, $ext, $pos:top left, $repeat: no-repeat, $bgcolor:transparent) {
+  background: url('../images/=#{$name}.#{$ext}') $pos $repeat $bgcolor;
+}
+
+
+/*****************/
+
+/**
+* @tags: image height
+* @for: Grab the height of the image in your CSS
+* @library: Compass Image Helper || http://compass-style.org/reference/compass/helpers/urls/
+* @mixin: @include image-height();
+* @usage:
+* .selector { @include image-height(img-name, png); }
+*/
+
+@mixin image-height($name, $ext) {
+	height: 	image-height('../images/#{$name}.#{$ext}');
+}
+
+/*****************/
+
+/**
+* @tags: image width
+* @for: Grab the width of the image in your CSS
+* @library: Compass Image Helper || http://compass-style.org/reference/compass/helpers/urls/
+* @mixin: @include image-width();
+* @usage:
+* .selector { @include image-width(img-name, png); }
+*/
+
+@mixin image-width($name, $ext) {
+	width: 	image-width('../images/#{$name}.#{$ext}');
+}
+
+/*****************/
+
+/**
+* @tags: image size
+* @for: Grab the height/width of the image in your CSS
+* @library: Compass Image Helper || http://compass-style.org/reference/compass/helpers/urls/
+* @mixin: @include image-size();
+* @usage:
+* .selector { @include image-size(img-name, png); }
+*/
+
+@mixin image-size($name, $ext) {
+	height: image-height('../images/#{$name}.#{$ext}');
+	width: 	image-width('../images/#{$name}.#{$ext}');
+}
+
+/*****************/
+
+/**
+* @tags: center element horizontally in absolute position
+* @for: Grab the height/width of the image and add a value to the margin-left (half of the width)
+* @library: Compass Image Helper || http://compass-style.org/reference/compass/helpers/urls/
+* @mixin: @include center-absolute();
+* @usage:
+* .selector { @include center-absolute(img-name, png); }
+*/
+
+@mixin center-absolute($name, $ext, $repeat: no-repeat) {
+	position:	absolute;
+	left:		50%;
+	
+	margin-left: - image-width('../images/#{$name}.#{$ext}') / 2;
+	height: image-height('../images/#{$name}.#{$ext}');
+	width: 	image-width('../images/#{$name}.#{$ext}');
+	
+	background:	url('../images/#{$name}.#{$ext}') #{$repeat};
+}
+
+/*****************/
+
+/**
+* @tags: prefix
+* @for: add prefix to your attribut
+* @mixin: @include prefixer();
+* @usage:
+* .selector { @include prefixer(attribut, value, webkit ms moz o spec); } || @include prefixer(background-size, 100%, webkit ms moz o spec);
+*/
+
+@mixin prefixer ($property, $value, $prefixes) {
+
+  @each $prefix in $prefixes {
+
+    @if $prefix == webkit {
+      -webkit-#{$property}: $value;
+    }
+    @else if $prefix == moz {
+      -moz-#{$property}: $value;
+    }
+    @else if $prefix == ms {
+      -ms-#{$property}: $value;
+    }
+    @else if $prefix == o {
+      -o-#{$property}: $value;
+    }
+    @else if $prefix == spec {
+      #{$property}: $value;
+    }
+    @else {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+/*****************/
+
+/**
+* @tags: prefix & suffix
+* @for: add prefix to your attribut
+* @mixin: @include prefix-suffix();
+* @usage:
+* .selector { @include prefix-suffix(attribut, value, webkit ms moz o spec); } || @include prefixer(background-size, 100%, webkit ms moz o spec);
+*/
+
+@mixin prefix-suffix ($property, $value, $prefixes) {
+
+  @each $prefix in $prefixes {
+
+    @if $prefix == webkit {
+      -webkit-#{$property}: -webkit-#{$value};
+    }
+    @else if $prefix == moz {
+      -moz-#{$property}: -moz-#{$value};
+    }
+    @else if $prefix == ms {
+      -ms-#{$property}: -ms-#{$value};
+    }
+    @else if $prefix == o {
+      -o-#{$property}: -o-#{$value};
+    }
+    @else if $prefix == spec {
+      #{$property}: #{$value};
+    }
+    @else {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+/*****************/
+
+/**
+* @tags: suffix
+* @for: add suffix to your attribut
+* @mixin: @include suffix();
+* @usage:
+* .selector { @include suffix(attribut, value, webkit ms moz o spec); } || @include suffix(background-size, 100%, webkit ms moz o spec);
+*/
+
+@mixin suffix ($property, $value, $prefixes) {
+
+  @each $prefix in $prefixes {
+
+    @if $prefix == webkit {
+      #{$property}: -webkit-#{$value};
+    }
+    @else if $prefix == moz {
+      #{$property}: -moz-#{$value};
+    }
+    @else if $prefix == ms {
+      #{$property}: -ms-#{$value};
+    }
+    @else if $prefix == o {
+      #{$property}: -o-#{$value};
+    }
+    @else if $prefix == spec {
+      #{$property}: #{$value};
+    }
+    @else {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+/*****************/
+
+/**
+* @tags: keyframes
+* @for: add suffix to your keyframes animation
+* @mixin: @include keyframe(animationName, webkit moz o ms spec);
+* @usage:
+* .selector { @include keyframes(block1-visible, webkit ms moz o spec) {
+*		from, 0% {  }
+*		to { }
+*	}
+*/
+
+@mixin keyframes ($property, $prefixes) {
+
+  @each $prefix in $prefixes {
+
+    @if $prefix == webkit {
+      @-webkit-keyframes #{$property} { @content; }
+    }
+    @else if $prefix == moz {
+      @-moz-keyframes #{$property} { @content; }
+    }
+    @else if $prefix == ms {
+      @-ms-keyframes #{$property} { @content; }
+    }
+    @else if $prefix == o {
+      @-o-keyframes #{$property} { @content; }
+    }
+    @else if $prefix == spec {
+      @keyframes #{$property} { @content; }
+    }
+    @else {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+@-webkit-keyframes opacityValue {
+}
+
+/*****************/
+
+/**
+* @tags: debug
+* @for: add red border to element
+* @mixin: @include debug();
+* @usage:
+* .selector { @include debug(); }
+*/
+
+//Help for debugging
+@mixin debug {
+	border:	1px red dotted;
+}
+
+/*****************/
+
+/**
+* @tags: css3 border radius
+* @mixin: @include rounded();
+* @usage:
+* .selector { @include rounded(10px); }
+*/
+
+@mixin rounded($value) {
+  border-radius: $value;
+  -moz-border-radius: $value;
+  -webkit-border-radius: $value;
+}
+
+/*****************/
+
+/**
+* @tags: css3 basic transition
+* @mixin: @include transition();
+* @usage:
+* .selector { @include transition(0.3s); }
+*/
+
+@mixin transition ($value) {
+	-webkit-transition: all $value ease;
+	-moz-transition: 	all $value ease;
+	-moz-transition:	all $value ease;
+	-ms-transition:		all $value ease;
+	-o-transition:		all $value ease;
+	transition:			all $value ease;
+}
+
+/*****************/
+
+/**
+* @tags: css3 basic animation
+* @mixin: @include animation();
+* @usage:
+* .selector { @include animation(0.3s); }
+*/
+
+@mixin animation ($value) {
+	-webkit-animation-duration: $value;
+	-moz-animation-duration: 	$value;
+	-ms-animation-duration: 	$value;
+	-o-animation-duration: 		$value;
+	animation-duration: 		$value;
+}
+
+/*****************/
+
+/**
+* @tags: css3 custom transition
+* @mixin: @include animation();
+* @usage:
+* .selector { @include custom-transition(0.3s); }
+*/
+
+@mixin custom-transition {
+	-webkit-transition: all 800ms cubic-bezier(1.000, 0, 0.170, 0.995); /* older webkit */
+	-webkit-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	   -moz-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	    -ms-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	     -o-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	        transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995); /* custom */
+
+	-webkit-transition-timing-function: cubic-bezier(1.000, 0, 0.170, 0.995); /* older webkit */
+	-webkit-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	   -moz-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	    -ms-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	     -o-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	        transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995); /* custom */
+}
+
+@mixin easeOutQuad ($value) {
+	-webkit-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	   -moz-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	    -ms-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	     -o-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	        transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000); /* easeOutQuart */
+
+	-webkit-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	   -moz-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	    -ms-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	     -o-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	        transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000); /* easeOutQuart */
+}
+
+/*****************/
+
+/**
+* @tags: css3 transition delay
+* @mixin: @include delay();
+* @usage:
+* .selector { @include delay(0.3s); }
+*/
+
+@mixin delay ($value) {
+	transition-delay: $value;
+	-moz-transition-delay: $value; /* Firefox 4 */
+	-webkit-transition-delay: $value; /* Safari and Chrome */
+	-o-transition-delay: $value; /* Opera */
+}
+
+@mixin animation_delay ($value) {
+	animation-delay: $value;
+	-moz-animation-delay: $value; /* Firefox 4 */
+	-webkit-animation-delay: $value; /* Safari and Chrome */
+	-o-animation-delay: $value; /* Opera */
+}
+
+/*****************/
+
+/**
+* @tags: include padding into the width & height of your element
+* @mixin: @include borderbox();
+* @usage:
+* .selector { @include borderbox(); }
+*/
+
+@mixin borderbox {
+	box-sizing: 		border-box;
+	-webkit-box-sizing:	border-box;
+	-moz-box-sizing: 	border-box;
+}
+
+/*****************/
+
+/**
+* @tags: background opacity
+* @mixin: @include background-opacity();
+* @usage:
+* .selector { @include background-opacity(#fff); } || .selector { @include background-opacity(#fff, 0.8); }
+*/
+
+@mixin background-opacity($color, $opacity: 0.3) {
+    background: $color; /* The Fallback */
+    background: rgba($color, $opacity);
+}
+
+
+/*****************/
+
+/*  =========
+  FONT FACE
+=========
+*/
+
+/**
+* @tags: grab every font-face file
+* @mixin: @include font-face();
+* @usage:
+* .selector { @include font-face(font-custom-name, '../dir/font-file-name'); } | @include font-face(avenir, '../fonts/avenir-next-lt-pro');
+*/
+
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal ) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+
+    src: url('#{$file-path}.eot#iefix');
+    	src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+           url('#{$file-path}.woff') format('woff'),
+           url('#{$file-path}.ttf') format('truetype'),
+           url('#{$file-path}.svg##{$font-family}') format('svg');
+  }
+}
+
+/*  =========
+  TRIANGLE
+=========
+*/
+
+@mixin triangle-up($value, $color) {
+	width: 		0; 
+	height: 	0; 
+	
+	border-left: 	$value solid transparent;
+	border-right: 	$value solid transparent;
+	border-bottom: 	$value solid $color;
+}
+
+@mixin triangle-right($value, $color) {
+	width: 		0; 
+	height: 	0; 
+	
+	border-left: 	$value solid transparent;
+	border-top: 	$value solid transparent;
+	border-bottom: 	$value solid $color;
+}
+
+@mixin triangle-down($value, $color) {
+	width: 		0; 
+	height: 	0; 
+	
+	border-left: 	$value solid transparent;
+	border-right: 	$value solid transparent;
+	border-top: 	$value solid $color;
+}
+
+@mixin triangle-left($value, $color) {
+	width: 		0; 
+	height: 	0; 
+	
+	border-top: 	$value solid transparent;
+	border-right: 	$value solid transparent;
+	border-bottom: 	$value solid $color;
+}
