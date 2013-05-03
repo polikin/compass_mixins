@@ -12,10 +12,9 @@
 * @file _core.functions.scss
 *
 * @copyright (c) Locomotive 2013
-* @author Nicolas Poliquin <nic@locomotive.ca>
+* @author Nicolas Poliquin <nicolas@polikin.ca>
 * @version @Wed Mar  6 11:45:56 EST 2013
 * @since Version 2013-01-07
-* @license (c) Locomotive 2013
 */
 
 /*****************/
@@ -310,20 +309,6 @@
 	border:	1px red dotted;
 }
 
-/*****************/
-
-/**
-* @tags: css3 border radius
-* @mixin: @include rounded();
-* @usage:
-* .selector { @include rounded(10px); }
-*/
-
-@mixin rounded($value) {
-  border-radius: $value;
-  -moz-border-radius: $value;
-  -webkit-border-radius: $value;
-}
 
 /*****************/
 
