@@ -1,19 +1,21 @@
 /**
-* @tags: sass mixins library | Compass | http://compass-style.org
-* @use in: _var-project.scss
+* @tags: 	url path for background mixins
+* @usage: 	choose 3 different path. null by default, true = ../../../../charcoal/modules/admin/assets/images/, module = get-asset-images?a=
+* 			can be define into stylesheet or specefic class
 */
 
-@import "compass/css3";
-@import "compass/reset";
+$core: null !default;
 
 /*****************/
 
 /**
 * @file _core.functions.scss
 *
-* @author Nicolas Poliquin <nicolas@polikin.ca>
+* @copyright (c) Locomotive 2013
+* @author Nicolas Poliquin <nic@locomotive.ca>
 * @version @Wed Mar  6 11:45:56 EST 2013
 * @since Version 2013-01-07
+* @license (c) Locomotive 2013
 */
 
 /*****************/
@@ -25,13 +27,25 @@
 
 /**
 * @tags: media queries
-* @mixin: @include media-querie(value) { attribut }
+* @mixin: @include media-query(value) { attribut }
 * @usage:
-* .selector @include media-querie(320px) { width: 60%; }; }
+* .selector @include media-query(320px) { width: 60%; }; }
 */
 
-@mixin media-querie($value, $operator: 'min-width', $query: 'screen') {
-  @media #{$query} and (#{$operator}: #{$value}px) {
+@mixin media-query($value, $operator: 'min-width', $query: 'screen') {
+	@media #{$query} and (#{$operator}: #{$value}px) {
+		@content;
+	}
+}
+
+@mixin media-query-max($value, $operator: 'max-width', $query: 'screen') {
+	@media #{$query} and (#{$operator}: #{$value}px) {
+		@content;
+	}
+}
+
+@mixin media-query-minmax($value-min, $value-max, $operator: 'min-width', $operator2: 'max-width', $query: 'screen') {
+	@media #{$query} and (#{$operator}: #{$value-min}px) and (#{$operator2}: #{$value-max}px) {
 		@content;
 	}
 }
@@ -45,7 +59,7 @@
 */
 
 @mixin position ($type, $top, $right, $bottom, $left) {
-    position: 	$type;
+	position: 	$type;
     top: 		$top;
     right: 		$right;
     bottom: 	$bottom;
@@ -74,8 +88,17 @@
 * .selector { @include backgroundimage(bckg-btn-dwlmenu, png); }
 */
 
-@mixin backgroundimage($name, $ext, $pos:top left, $repeat: no-repeat, $bgcolor:transparent) {
-  background: url('../images/=#{$name}.#{$ext}') $pos $repeat $bgcolor;
+//$module: false !default;
+
+
+@mixin backgroundimage($name, $ext, $pos:top left, $repeat: no-repeat, $bgcolor:transparent, $important:null) {	
+	@if $core == true {
+		background: url('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}') $pos $repeat $bgcolor $important;
+	}@elseif $core == module {
+		background: url('get-asset-images?a=#{$name}.#{$ext}') $pos $repeat $bgcolor $important;
+	}@else {
+		background: image-url('#{$name}.#{$ext}') $pos $repeat $bgcolor $important;
+	}
 }
 
 
@@ -91,7 +114,11 @@
 */
 
 @mixin image-height($name, $ext) {
-	height: 	image-height('../images/#{$name}.#{$ext}');
+	@if $core == true {
+		height: image-height('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
+	}@else {
+		height: image-height('#{$name}.#{$ext}');
+	}
 }
 
 /*****************/
@@ -106,7 +133,11 @@
 */
 
 @mixin image-width($name, $ext) {
-	width: 	image-width('../images/#{$name}.#{$ext}');
+	@if $core == true {
+		width: 	image-width('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
+	}@else {
+		width: 	image-width('#{$name}.#{$ext}');
+	}
 }
 
 /*****************/
@@ -121,8 +152,13 @@
 */
 
 @mixin image-size($name, $ext) {
-	height: image-height('../images/#{$name}.#{$ext}');
-	width: 	image-width('../images/#{$name}.#{$ext}');
+	@if $core == true {
+		height: image-height('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
+		width: 	image-width('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
+	}@else {
+		height: image-height('#{$name}.#{$ext}');
+		width: 	image-width('#{$name}.#{$ext}');
+	}
 }
 
 /*****************/
@@ -136,16 +172,47 @@
 * .selector { @include center-absolute(img-name, png); }
 */
 
-@mixin center-absolute($name, $ext, $repeat: no-repeat) {
+$div: false !default;
+
+@mixin center-absolute($name: null, $ext: null, $repeat: no-repeat, $bgcolor:transparent, $important: null, $width: null, $height:auto, $top: null) {
+	@if $div == false {
+		position:	absolute;
+		left:		50%;
+
+		margin-left: - image-width('#{$name}.#{$ext}') / 2;
+		height: image-height('#{$name}.#{$ext}');
+		width: 	image-width('#{$name}.#{$ext}');
+
+		@if $core == true {
+			background: url('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}') $repeat $bgcolor $important;
+		}@elseif $core == module {
+			background: url('get-asset-images?a=#{$name}.#{$ext}') $repeat $bgcolor $important;
+		}@else {
+			background: image-url('#{$name}.#{$ext}') $repeat $bgcolor $important;
+		}
+	}@else {
+		position:	absolute;
+		top:		$top;
+		left:		50%;
+
+		width:	$width;
+		height:	$height;
+
+		margin-left:	- $width/2;
+	}
+}
+
+@mixin center-absolute-div($width, $height, $top: 0) {
 	position:	absolute;
+	top:		$top;
 	left:		50%;
 	
-	margin-left: - image-width('../images/#{$name}.#{$ext}') / 2;
-	height: image-height('../images/#{$name}.#{$ext}');
-	width: 	image-width('../images/#{$name}.#{$ext}');
+	width:	#{$width}px;
+	height:	#{$height}px;
 	
-	background:	url('../images/#{$name}.#{$ext}') #{$repeat};
-}
+	margin-left:	- $width/2;
+} 
+
 
 /*****************/
 
@@ -304,10 +371,24 @@
 */
 
 //Help for debugging
-@mixin debug {
+%debug {
 	border:	1px red dotted;
 }
 
+/*****************/
+
+/**
+* @tags: css3 border radius
+* @mixin: @include rounded();
+* @usage:
+* .selector { @include rounded(10px); }
+*/
+
+@mixin rounded($value) {
+  border-radius: $value;
+  -moz-border-radius: $value;
+  -webkit-border-radius: $value;
+}
 
 /*****************/
 
@@ -318,14 +399,14 @@
 * .selector { @include transition(0.3s); }
 */
 
-@mixin transition ($value) {
-	-webkit-transition: all $value ease;
-	-moz-transition: 	all $value ease;
-	-moz-transition:	all $value ease;
-	-ms-transition:		all $value ease;
-	-o-transition:		all $value ease;
-	transition:			all $value ease;
-}
+/*@mixin transition ($value, $attribut: all, $easing: ease) {
+	-webkit-transition: $attribut $value $easing;
+	-moz-transition: 	$attribut $value $easing;
+	-moz-transition:	$attribut $value $easing;
+	-ms-transition:		$attribut $value $easing;
+	-o-transition:		$attribut $value $easing;
+	transition:			$attribut $value $easing;
+}*/
 
 /*****************/
 
@@ -450,18 +531,36 @@
 * .selector { @include font-face(font-custom-name, '../dir/font-file-name'); } | @include font-face(avenir, '../fonts/avenir-next-lt-pro');
 */
 
-@mixin font-face($font-family, $file-path, $weight: normal, $style: normal ) {
-  @font-face {
-    font-family: $font-family;
-    font-weight: $weight;
-    font-style: $style;
+$font-url: false !default;
 
-    src: url('#{$file-path}.eot#iefix');
-    	src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
-           url('#{$file-path}.woff') format('woff'),
-           url('#{$file-path}.ttf') format('truetype'),
-           url('#{$file-path}.svg##{$font-family}') format('svg');
-  }
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal ) {
+	@if $font-url == true {
+		@font-face {
+			font-family: $font-family;
+			font-weight: $weight;
+			font-style: $style;
+
+			src: font-url('#{$file-path}.eot#iefix');
+
+			src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+			font-url('#{$file-path}.woff') format('woff'),
+			font-url('#{$file-path}.ttf') format('truetype'),
+			font-url('#{$file-path}.svg##{$font-family}') format('svg');
+		}
+	}@elseif $font-url == false {
+		@font-face {
+			font-family: $font-family;
+			font-weight: $weight;
+			font-style: $style;
+
+			src: url('#{$file-path}.eot#iefix');
+
+			src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+			url('#{$file-path}.woff') format('woff'),
+			url('#{$file-path}.ttf') format('truetype'),
+			url('#{$file-path}.svg##{$font-family}') format('svg');
+		}
+	}
 }
 
 /*  =========
@@ -503,4 +602,36 @@
 	border-top: 	$value solid transparent;
 	border-right: 	$value solid transparent;
 	border-bottom: 	$value solid $color;
+}
+
+/**
+* @tags: ie js breakpoint fix
+* @format:
+* .selector(@mixin ie-grid(width:60%;));
+*/
+
+@mixin ie-grid {
+	.is960 &,
+	.is1024 &,
+	.is1140 & {
+		@content;
+	}
+}
+
+/*****************/
+
+
+/**
+* @tags: css3 circle
+* @extend: pager button
+* @format:
+* @include circle(width value, height value, background-color);
+*/
+
+@mixin circle($circle-width, $circle-height, $color) {
+	width: 		$circle-width; 
+	height: 	$circle-height; 
+	background:	$color;
+	
+	@include border-radius($circle-width/2);
 }
