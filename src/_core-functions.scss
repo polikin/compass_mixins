@@ -1,3 +1,5 @@
+/*****************/
+
 /**
 * @tags: 	url path for background mixins
 * @usage: 	choose 3 different path. null by default, true = ../../../../charcoal/modules/admin/assets/images/, module = get-asset-images?a=
@@ -15,6 +17,7 @@ $core: null !default;
 * @version @Mon Jul  8 15:40:21 EDT 2013
 * @license (c) Polikin.ca 2013
 */
+
 
 /*****************/
 
@@ -172,9 +175,9 @@ $core: null !default;
 
 $div: false !default;
 
-@mixin center-absolute($name: null, $ext: null, $repeat: no-repeat, $bgcolor:transparent, $important: null, $width: null, $height:auto, $top: null) {
+@mixin center-absolute($name: null, $ext: null, $repeat: no-repeat, $bgcolor:transparent, $important: null, $width: null, $height:auto, $top: null, $pos:absolute) {
 	@if $div == false {
-		position:	absolute;
+		position:	$pos;
 		left:		50%;
 
 		margin-left: - image-width('#{$name}.#{$ext}') / 2;
@@ -189,7 +192,7 @@ $div: false !default;
 			background: image-url('#{$name}.#{$ext}') $repeat $bgcolor $important;
 		}
 	}@else {
-		position:	absolute;
+		position:	$pos;
 		top:		$top;
 		left:		50%;
 
@@ -197,6 +200,8 @@ $div: false !default;
 		height:	$height;
 
 		margin-left:	- $width/2;
+		
+		z-index:	9999;
 	}
 }
 
@@ -222,7 +227,8 @@ $div: false !default;
 * .selector { @include prefixer(attribut, value, webkit ms moz o spec); } || @include prefixer(background-size, 100%, webkit ms moz o spec);
 */
 
-@mixin prefixer ($property, $value, $prefixes) {
+
+@mixin prefixer ($property, $value, $prefixes: webkit ms moz o spec) {
 
   @each $prefix in $prefixes {
 
@@ -257,7 +263,7 @@ $div: false !default;
 * .selector { @include prefix-suffix(attribut, value, webkit ms moz o spec); } || @include prefixer(background-size, 100%, webkit ms moz o spec);
 */
 
-@mixin prefix-suffix ($property, $value, $prefixes) {
+@mixin prefix-suffix ($property, $value, $prefixes: webkit ms moz o spec) {
 
   @each $prefix in $prefixes {
 
@@ -292,7 +298,7 @@ $div: false !default;
 * .selector { @include suffix(attribut, value, webkit ms moz o spec); } || @include suffix(background-size, 100%, webkit ms moz o spec);
 */
 
-@mixin suffix ($property, $value, $prefixes) {
+@mixin suffix ($property, $value, $prefixes: webkit ms moz o spec) {
 
   @each $prefix in $prefixes {
 
@@ -330,7 +336,7 @@ $div: false !default;
 *	}
 */
 
-@mixin keyframes ($property, $prefixes) {
+@mixin keyframes ($property, $prefixes: webkit ms moz o spec) {
 
   @each $prefix in $prefixes {
 
@@ -370,7 +376,8 @@ $div: false !default;
 
 //Help for debugging
 %debug {
-	border:	1px red dotted;
+	border:		1px red dotted;
+	background:	yellow;
 }
 
 /*****************/
@@ -632,4 +639,42 @@ $font-url: false !default;
 	background:	$color;
 	
 	@include border-radius($circle-width/2);
+}
+
+
+/**
+* @tags: add any properties in placeholder
+* @format:
+*@include placeholder-color() {your properties}
+* @usage :
+* @include placeholder-color($color: red);
+*/
+
+@mixin placeholder-color($color) { 	
+	@each $prefix in "::-webkit-input", ":moz", "::-moz", ":-ms-input" {
+	    #{$prefix}-placeholder {
+	     	color: $color;	
+	    }
+	}
+}
+
+
+/**
+* @tags: add any properties in placeholder
+* @format:
+*@include placeholder-content() {your properties}
+* @usage :
+* @include placeholder-content() {
+*    color: yellow;
+* }*
+*/
+
+@mixin placeholder-content() {
+ 	
+	@each $prefix in "::-webkit-input", ":moz", "::-moz", ":-ms-input" {
+	    #{$prefix}-placeholder {
+
+	     	@content;
+	    }
+	}
 }
