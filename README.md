@@ -4,7 +4,10 @@ compass_mixins
 Here's some mixins that I created or integrate from other people. It's very useful!
 Obviously, you can add or modified those mixins for your own code.    
 
-Now with Susy Responsive Grid (http://susy.oddbird.net/), Ceaser CSS3 Animations (https://github.com/jhardy/compass-ceaser-easing) and GetSkeleton Grid (https://github.com/theresponsiveness/GetSkeleton1200-or-960 & http://getskeleton.com/)    
+Now with:    
+- Susy Responsive Grid (http://susy.oddbird.net/)    
+- Ceaser CSS3 Animations (https://github.com/jhardy/compass-ceaser-easing)    
+- GetSkeleton Grid (https://github.com/theresponsiveness/GetSkeleton1200-or-960 & http://getskeleton.com/)    
 
 No need to install any gems.
 
@@ -12,7 +15,7 @@ No need to install any gems.
 ---
 `@import "_charcoal-core"` - everything (GetSkeleton Grid, Susy Grid, Ceaser, Custom mixins)    
 `@import "_charcoal-core/src/_susy"` - Susy grid only    
-`@import "_charcoal-core/src/_ceaser"` - CSS3 easing animations only
+`@import "_charcoal-core/src/_ceaser"` - CSS3 easing animations only    
 `@import "_charcoal-core/src/_responsive-grid"` - GetSkeleton Grid only * Refer to https://github.com/theresponsiveness/GetSkeleton1200-or-960 *    
 ---
 
