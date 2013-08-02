@@ -16,6 +16,7 @@ No need to install any gems.
 `@import "_charcoal-core"` - everything (GetSkeleton Grid, Susy Grid, Ceaser, Custom mixins)    
 `@import "_charcoal-core/src/_susy"` - Susy grid only    
 `@import "_charcoal-core/src/_ceaser"` - CSS3 easing animations only    
+`@import "_charcoal-core/src/_ceaser"` - CSS3 easing animations only    
 `@import "_charcoal-core/src/_responsive-grid"` - GetSkeleton Grid only (Refer to https://github.com/theresponsiveness/GetSkeleton1200-or-960)
 ---
 
