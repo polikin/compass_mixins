@@ -42,7 +42,7 @@ No need to install any gems.
 #####How to use Ceaser mixins
 ---
 
-`transition: all 1.2s ceaser($ease-in);`
+`@include ceaser-transition(all, 800ms, $easeInQuad);`
 
 ---
 
