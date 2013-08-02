@@ -34,7 +34,7 @@ No need to install any gems.
 `font-face`    
 `triangle`    
 `circle`    
-`placeholder color`    
+`placeholder color`
 ---
 
 #####How to use Ceaser mixins
