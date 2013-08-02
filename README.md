@@ -23,7 +23,7 @@ No need to install any gems.
 
 #####Type of mixins: | file: _core-functions.scss
 ---
-`media-query";`    
+`media-query`    
 `image size`    
 `image height`    
 `image width`    
