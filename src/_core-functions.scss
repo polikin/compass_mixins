@@ -51,6 +51,23 @@ $core: null !default;
 	}
 }
 
+
+/**
+* @tags: position
+* @mixin: @include position();
+* @usage:
+* .selector { @include position(absolute, 0, 0, 0, 0); }
+*/
+
+@mixin position ($type, $top, $right, $bottom, $left) {
+	position: 	$type;
+    top: 		$top;
+    right: 		$right;
+    bottom: 	$bottom;
+    left: 		$left;
+}
+
+
 /**
 * @tags: custom size
 * @mixin: @include size();
@@ -187,6 +204,18 @@ $div: false !default;
 		z-index:	9999;
 	}
 }
+
+@mixin center-absolute-div($width, $height, $top: 0) {
+	position:	absolute;
+	top:		$top;
+	left:		50%;
+	
+	width:	#{$width}px;
+	height:	#{$height}px;
+	
+	margin-left:	- $width/2;
+} 
+
 
 /*****************/
 
@@ -351,8 +380,38 @@ $div: false !default;
 	background:	yellow;
 }
 
+/*****************/
 
-/*
+/**
+* @tags: css3 border radius
+* @mixin: @include rounded();
+* @usage:
+* .selector { @include rounded(10px); }
+*/
+
+@mixin rounded($value) {
+  border-radius: $value;
+  -moz-border-radius: $value;
+  -webkit-border-radius: $value;
+}
+
+/*****************/
+
+/**
+* @tags: css3 basic transition
+* @mixin: @include transition();
+* @usage:
+* .selector { @include transition(0.3s); }
+*/
+
+/*@mixin transition ($value, $attribut: all, $easing: ease) {
+	-webkit-transition: $attribut $value $easing;
+	-moz-transition: 	$attribut $value $easing;
+	-moz-transition:	$attribut $value $easing;
+	-ms-transition:		$attribut $value $easing;
+	-o-transition:		$attribut $value $easing;
+	transition:			$attribut $value $easing;
+}*/
 
 /*****************/
 
@@ -373,6 +432,97 @@ $div: false !default;
 
 /*****************/
 
+/**
+* @tags: css3 custom transition
+* @mixin: @include animation();
+* @usage:
+* .selector { @include custom-transition(0.3s); }
+*/
+
+@mixin custom-transition {
+	-webkit-transition: all 800ms cubic-bezier(1.000, 0, 0.170, 0.995); /* older webkit */
+	-webkit-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	   -moz-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	    -ms-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	     -o-transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	        transition: all 800ms cubic-bezier(1.000, -0.005, 0.170, 0.995); /* custom */
+
+	-webkit-transition-timing-function: cubic-bezier(1.000, 0, 0.170, 0.995); /* older webkit */
+	-webkit-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	   -moz-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	    -ms-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	     -o-transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995);
+	        transition-timing-function: cubic-bezier(1.000, -0.005, 0.170, 0.995); /* custom */
+}
+
+@mixin easeOutQuad ($value) {
+	-webkit-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	   -moz-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	    -ms-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	     -o-transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	        transition: all $value cubic-bezier(0.165, 0.840, 0.440, 1.000); /* easeOutQuart */
+
+	-webkit-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	   -moz-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	    -ms-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	     -o-transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	        transition-timing-function: cubic-bezier(0.165, 0.840, 0.440, 1.000); /* easeOutQuart */
+}
+
+/*****************/
+
+/**
+* @tags: css3 transition delay
+* @mixin: @include delay();
+* @usage:
+* .selector { @include delay(0.3s); }
+*/
+
+@mixin delay ($value) {
+	transition-delay: $value;
+	-moz-transition-delay: $value; /* Firefox 4 */
+	-webkit-transition-delay: $value; /* Safari and Chrome */
+	-o-transition-delay: $value; /* Opera */
+}
+
+@mixin animation_delay ($value) {
+	animation-delay: $value;
+	-moz-animation-delay: $value; /* Firefox 4 */
+	-webkit-animation-delay: $value; /* Safari and Chrome */
+	-o-animation-delay: $value; /* Opera */
+}
+
+/*****************/
+
+/**
+* @tags: include padding into the width & height of your element
+* @mixin: @include borderbox();
+* @usage:
+* .selector { @include borderbox(); }
+*/
+
+@mixin borderbox {
+	box-sizing: 		border-box;
+	-webkit-box-sizing:	border-box;
+	-moz-box-sizing: 	border-box;
+}
+
+/*****************/
+
+/**
+* @tags: background opacity
+* @mixin: @include background-opacity();
+* @usage:
+* .selector { @include background-opacity(#fff); } || .selector { @include background-opacity(#fff, 0.8); }
+*/
+
+@mixin background-opacity($color, $opacity: 0.3) {
+    background: $color; /* The Fallback */
+    background: rgba($color, $opacity);
+}
+
+
+/*****************/
 
 /*  =========
   FONT FACE
@@ -418,51 +568,47 @@ $font-url: false !default;
 	}
 }
 
-/**
-* @tags: css triangle arrow
-* @format:
-* .selector(@include triangle-up(10px, black));
+/*  =========
+  TRIANGLE
+=========
 */
-@mixin triangle-up($value, $color) {
-	width: 		0; 
-	height: 	0; 
-	
-	border-left: 	$value solid transparent;
-	border-right: 	$value solid transparent;
-	border-bottom: 	$value solid $color;
-}
 
-@mixin triangle-right($value, $color) {
-	width: 		0; 
-	height: 	0; 
+@mixin arrow($value, $color, $direction) {
+	@if $direction == up {
+		width: 		0; 
+		height: 	0; 
 	
-	border-left: 	$value solid transparent;
-	border-top: 	$value solid transparent;
-	border-bottom: 	$value solid $color;
-}
-
-@mixin triangle-down($value, $color) {
-	width: 		0; 
-	height: 	0; 
+		border-left: 	$value solid transparent;
+		border-right: 	$value solid transparent;
+		border-bottom: 	$value solid $color;
+	}@elseif $direction == right {
+		width: 		0; 
+		height: 	0; 
 	
-	border-left: 	$value solid transparent;
-	border-right: 	$value solid transparent;
-	border-top: 	$value solid $color;
-}
-
-@mixin triangle-left($value, $color) {
-	width: 		0; 
-	height: 	0; 
+		border-left: 	$value solid transparent;
+		border-top: 	$value solid transparent;
+		border-bottom: 	$value solid $color;
+	}@if $direction == down {
+		width: 		0; 
+		height: 	0; 
 	
-	border-top: 	$value solid transparent;
-	border-right: 	$value solid transparent;
-	border-bottom: 	$value solid $color;
+		border-left: 	$value solid transparent;
+		border-right: 	$value solid transparent;
+		border-top: 	$value solid $color;
+	}@if $direction == left {
+		width: 		0; 
+		height: 	0; 
+	
+		border-top: 	$value solid transparent;
+		border-right: 	$value solid transparent;
+		border-bottom: 	$value solid $color;
+	}
 }
 
 /**
 * @tags: ie js breakpoint fix
 * @format:
-* .selector(@include ie-grid(width:60%;));
+* .selector(@mixin ie-grid(width:60%;));
 */
 
 @mixin ie-grid {
