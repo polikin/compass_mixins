@@ -51,6 +51,8 @@ No need to install any gems.
 
 The only thing you have to do is to create susy variables and you're good to go!    
 
+---
+
 #####How to use Animate.sass
 ---
 
