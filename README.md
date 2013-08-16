@@ -49,4 +49,18 @@ No need to install any gems.
 #####How to use Susy
 ---
 
-The only thing you have to do is to create susy variables and you're good to go!
+The only thing you have to do is to create susy variables and you're good to go!    
+
+#####How to use Animate.sass
+---
+
+`@import "animate/_shared";`    
+`@import "animate/_animations";`    
+
+then    
+
+`@include animations(fading-entrances);` - entrances animations family    
+or    
+`@include animations(fading-entrances/fadeInRight);` - specific animation     
+
+reference: https://github.com/theresponsiveness/animate.sass
