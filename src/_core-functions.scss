@@ -174,16 +174,62 @@ $core: null !default;
 */
 
 $div: false !default;
+$div-height: null;
 
-@mixin center-absolute($name: null, $ext: null, $repeat: no-repeat, $bgcolor:transparent, $important: null, $width: null, $height:auto, $top: null, $pos:absolute) {
+@mixin center-absolute($name: null, $ext: null, $repeat: no-repeat, $bgcolor:transparent, $important: null, $width: null, $height:null, $top: 0, $right: 0, $bottom: 0, $left: 0, $pos:absolute) {
 	@if $div == false {
-		position:	$pos;
+		/*position:	$pos;
 		left:		50%;
-
+		top:		$top;
+		
+		@if $top == 50% {
+			margin-top:  - image-height('#{$name}.#{$ext}') / 2;
+		}
+		
 		margin-left: - image-width('#{$name}.#{$ext}') / 2;
 		height: image-height('#{$name}.#{$ext}');
+		width: 	image-width('#{$name}.#{$ext}');*/
+		
+		@if $top > 0 {
+			top:		$top;
+			right:		0;
+			bottom:		auto;
+			left:		0;
+		}@elseif $right > 0 {
+			top:		0;
+			right:		$right;
+			bottom:		0;
+			left:		auto;			
+		}@elseif $bottom > 0 {
+			top:		auto;
+			right:		0;
+			bottom:		$bottom;
+			left:		0;			
+		}@elseif $left > 0 {
+			top:		0;
+			right:		auto;
+			bottom:		0;
+			left:		$left;			
+		}@else {
+			top:		$top;
+			right:		$right;
+			bottom:		$bottom;
+			left:		$left;
+		}
+		
+		height: image-height('#{$name}.#{$ext}');
 		width: 	image-width('#{$name}.#{$ext}');
+		
+		@if $core == true {
+			height: image-height('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
+			width: 	image-width('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
+		}@else {
+			height: image-height('#{$name}.#{$ext}');
+			width: 	image-width('#{$name}.#{$ext}');
+		}
 
+		margin:	auto;
+		
 		@if $core == true {
 			background: url('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}') $repeat $bgcolor $important;
 		}@elseif $core == module {
@@ -191,17 +237,85 @@ $div: false !default;
 		}@else {
 			background: image-url('#{$name}.#{$ext}') $repeat $bgcolor $important;
 		}
-	}@else {
-		position:	$pos;
-		top:		$top;
-		left:		50%;
-
-		width:	$width;
-		height:	$height;
-
-		margin-left:	- $width/2;
 		
-		z-index:	9999;
+		.ie7 & {
+			left:		50%;
+			top:		$top;
+		
+			@if $top == 50% {
+				margin-top:  - image-height('#{$name}.#{$ext}') / 2;
+			}
+		
+			margin-left: - image-width('#{$name}.#{$ext}') / 2;
+			height: image-height('#{$name}.#{$ext}');
+			width: 	image-width('#{$name}.#{$ext}');
+		}
+		
+		
+	}@else {
+		
+		@if $div-height ==  variable {
+			left:		50%;
+			top:		$top;
+
+			@if $top == 50% {
+				margin-top:  - $height / 2;
+			}
+
+			width:	$width;
+			height:	$height;
+
+			margin-left:	- $width/2;
+		
+			z-index:	9999;
+			
+		}@else {
+			@if $top > 0 {
+				top:		$top;
+				right:		0;
+				bottom:		auto;
+				left:		0;
+			}@elseif $right > 0 {
+				top:		0;
+				right:		$right;
+				bottom:		0;
+				left:		auto;			
+			}@elseif $bottom > 0 {
+				top:		auto;
+				right:		0;
+				bottom:		$bottom;
+				left:		0;			
+			}@elseif $left > 0 {
+				top:		0;
+				right:		auto;
+				bottom:		0;
+				left:		$left;			
+			}@else {
+				top:		$top;
+				right:		$right;
+				bottom:		$bottom;
+				left:		$left;
+			}
+			margin:		auto;
+		}
+		
+		position:	$pos;		
+		
+		width: 	$width;
+		height:	$height;
+		
+		.ie7 & {
+			position:	$pos;
+			top:		$top;
+			left:		50%;
+
+			width:	$width;
+			height:	$height;
+
+			margin-left:	- $width/2;
+		
+			z-index:	9999;
+		}
 	}
 }
 
@@ -383,11 +497,33 @@ $div: false !default;
 /*****************/
 
 /**
+* @tags: include padding into the width & height of your element
+* @mixin: @include borderbox();
+* @usage:
+* .selector { @include borderbox(); }
+*/
+
+@mixin borderbox {
+	box-sizing: 		border-box;
+	-webkit-box-sizing:	border-box;
+	-moz-box-sizing: 	border-box;
+}
+
+/*****************/
+
+/**
 * @tags: css3 transition delay
 * @mixin: @include delay();
 * @usage:
 * .selector { @include delay(0.3s); }
 */
+
+@mixin delay ($value) {
+	transition-delay: $value;
+	-moz-transition-delay: $value; /* Firefox 4 */
+	-webkit-transition-delay: $value; /* Safari and Chrome */
+	-o-transition-delay: $value; /* Opera */
+}
 
 @mixin animation_delay ($value) {
 	animation-delay: $value;
@@ -397,7 +533,6 @@ $div: false !default;
 }
 
 /*****************/
-
 
 /*  =========
   FONT FACE
@@ -506,12 +641,12 @@ $font-url: false !default;
 * @include circle(width value, height value, background-color);
 */
 
-@mixin circle($circle-width, $circle-height, $color) {
-	width: 		$circle-width; 
-	height: 	$circle-height; 
+@mixin circle($circle-size, $color) {
+	width: 		$circle-size; 
+	height: 	$circle-size; 
 	background:	$color;
 	
-	@include border-radius($circle-width/2);
+	@include border-radius($circle-size/2);
 }
 
 
