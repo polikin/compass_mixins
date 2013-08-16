@@ -177,19 +177,10 @@ $div: false !default;
 $div-height: null;
 
 @mixin center-absolute($name: null, $ext: null, $repeat: no-repeat, $bgcolor:transparent, $important: null, $width: null, $height:null, $top: 0, $right: 0, $bottom: 0, $left: 0, $pos:absolute) {
-	@if $div == false {
-		/*position:	$pos;
-		left:		50%;
-		top:		$top;
-		
-		@if $top == 50% {
-			margin-top:  - image-height('#{$name}.#{$ext}') / 2;
-		}
-		
-		margin-left: - image-width('#{$name}.#{$ext}') / 2;
-		height: image-height('#{$name}.#{$ext}');
-		width: 	image-width('#{$name}.#{$ext}');*/
-		
+	
+	position:	$pos;
+	
+	@if $name and $ext !=  null { /* @if background image is call */
 		@if $top > 0 {
 			top:		$top;
 			right:		0;
@@ -217,24 +208,24 @@ $div-height: null;
 			left:		$left;
 		}
 		
+		margin:	auto;
+		
 		height: image-height('#{$name}.#{$ext}');
 		width: 	image-width('#{$name}.#{$ext}');
 		
-		@if $core == true {
+		@if $core == true { /* @if we need image from the core | use this variable for custom charcoal skin */
 			height: image-height('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
 			width: 	image-width('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}');
-		}@else {
+		}@else { /* config.rb relative assets */
 			height: image-height('#{$name}.#{$ext}');
 			width: 	image-width('#{$name}.#{$ext}');
 		}
-
-		margin:	auto;
 		
-		@if $core == true {
+		@if $core == true { /* @if we need image from the core | use this variable for custom charcoal skin */
 			background: url('../../../../charcoal/modules/admin/assets/images/#{$name}.#{$ext}') $repeat $bgcolor $important;
-		}@elseif $core == module {
+		}@elseif $core == module { /* (get-asset-images) charcoal function | take image from the modules define into the config.json */
 			background: url('get-asset-images?a=#{$name}.#{$ext}') $repeat $bgcolor $important;
-		}@else {
+		}@else { /* config.rb relative assets */
 			background: image-url('#{$name}.#{$ext}') $repeat $bgcolor $important;
 		}
 		
@@ -251,14 +242,12 @@ $div-height: null;
 			width: 	image-width('#{$name}.#{$ext}');
 		}
 		
-		
 	}@else {
-		
-		@if $div-height ==  variable {
+		@if $div-height ==  variable { /* @if div height is unknown */
 			left:		50%;
 			top:		$top;
 
-			@if $top == 50% {
+			@if $top == 50% { /* center vertically with height value */
 				margin-top:  - $height / 2;
 			}
 
@@ -269,7 +258,7 @@ $div-height: null;
 		
 			z-index:	9999;
 			
-		}@else {
+		}@else { /* @if div height is know */
 			@if $top > 0 {
 				top:		$top;
 				right:		0;
@@ -297,9 +286,7 @@ $div-height: null;
 				left:		$left;
 			}
 			margin:		auto;
-		}
-		
-		position:	$pos;		
+		}	
 		
 		width: 	$width;
 		height:	$height;
@@ -316,19 +303,9 @@ $div-height: null;
 		
 			z-index:	9999;
 		}
+		
 	}
 }
-
-@mixin center-absolute-div($width, $height, $top: 0) {
-	position:	absolute;
-	top:		$top;
-	left:		50%;
-	
-	width:	#{$width}px;
-	height:	#{$height}px;
-	
-	margin-left:	- $width/2;
-} 
 
 
 /*****************/
