@@ -22,6 +22,15 @@
 /*****************/
 
 /**
+* @tags:	css3 animation library || https://github.com/adamstac/animate.sass
+*/
+
+@import "src/animate/_shared";
+@import "src/animate/_animations";
+
+/*****************/
+
+/**
 * @tags:	susy compass grid || (http://susy.oddbird.net/
 */
 
